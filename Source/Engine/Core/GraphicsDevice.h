@@ -19,6 +19,8 @@ public:
 	// 렌더링 종료: 그린 그림 실제 모니터로 보냄
 	void RenderEnd();
 
+	ComPtr<ID3D11Device> GetDevice() { return _device; }
+	ComPtr<ID3D11DeviceContext> GetContext() { return _context; }
 private:
 	HWND _hwnd;
 
@@ -28,5 +30,5 @@ private:
 	ComPtr<IDXGISwapChain>		_swapChain;		// 화면 교체해주는 장치
 
 	ComPtr<ID3D11RenderTargetView>	_renderTargetView;	// 실제 그릴 도화지
-	D3D11_VIEWPORT					_viewport = {};		// 도화지 중 어디에 그릴지 정하는 여역
+	D3D11_VIEWPORT					_viewport = {};		// 도화지 중 어디에 그릴지 정하는 영역
 };
