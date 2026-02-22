@@ -18,11 +18,18 @@ int main() {
 	GraphicsDevice graphics(window.GetHWND());
 	graphics.Init();
 
-	// 삼각형 정점 데이터
+	// 정점 데이터
 	Vertex vertices[] = {
-		{  0.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f },
-		{  0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f }, 
-		{ -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f }  
+		{ -0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f }, // 0: 왼쪽 위
+		{  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f }, // 1: 오른쪽 위
+		{  0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f }, // 2: 오른쪽 아래
+		{ -0.5f, -0.5f, 0.0f,  1.0f, 1.0f, 1.0f, 1.0f }  // 3: 왼쪽 아래
+	};
+
+	// 인덱스 데이터
+	uint32_t indices[] = {
+		0, 1, 2, 
+		0, 2, 3 
 	};
 
 
@@ -37,7 +44,6 @@ int main() {
 	// 버텍스 쉐이더 컴파일 (VS 함수 찾기)
 	D3DCompileFromFile(L"C:/Users/unipu/Documents/GitHub/D_Engine/Resources/Shaders/Default.hlsl", nullptr, nullptr, "VS", "vs_5_0", 0, 0, &vsBlob, nullptr);
 	graphics.GetDevice()->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &vertexShader);
-
 
 
 	// 픽셀 셰이더 컴파일 (PS 함수 찾기)
@@ -65,6 +71,18 @@ int main() {
 	D3D11_SUBRESOURCE_DATA initData = {};
 	initData.pSysMem = vertices; // CPU에 있는 데이터 주소
 	graphics.GetDevice()->CreateBuffer(&bd, &initData, &vertexBuffer);
+	
+
+	// 3-1 인덱스 버퍼 생성
+	ComPtr<ID3D11Buffer> indexBuffer;
+	D3D11_BUFFER_DESC ibd = {};
+	ibd.Usage = D3D11_USAGE_DEFAULT;
+	ibd.ByteWidth = sizeof(indices);			// 인덱스 배열 전체 크기
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;	// 반드시 인덱스 버퍼로 설정
+
+	D3D11_SUBRESOURCE_DATA iInitData = {};
+	iInitData.pSysMem = indices;           // 인덱스 데이터 주소
+	graphics.GetDevice()->CreateBuffer(&ibd, &iInitData, &indexBuffer);
 
 
 	// 게임 루프
@@ -78,12 +96,22 @@ int main() {
 
 		context->IASetInputLayout(inputLayout.Get());                    // 뼈대 설정
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 삼각형으로 그리겠다
+		
+		
+		// 1. Vertex Buffer Connect
 		context->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset); // 정점 전달
+		
+		// 2. Index Buffer Connect
+		// DXGI_FORMAT_R32_UINT -> uint32_t 사용한다는 의미
+		context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+		
 		context->VSSetShader(vertexShader.Get(), nullptr, 0);            // 버텍스 셰이더 장착
 		context->PSSetShader(pixelShader.Get(), nullptr, 0);            // 픽셀 셰이더 장착
 
-		context->Draw(3, 0); // 삼각형 3개의 정점 그려라
 
+		//context->Draw(3, 0);		// Non Index Buffer
+		context->DrawIndexed(6, 0, 0);	// Use Index Buffer
+		
 		graphics.RenderEnd();
 	}
 
