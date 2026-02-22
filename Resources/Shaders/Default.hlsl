@@ -1,3 +1,11 @@
+// 상수 버퍼 정의 (C++에서 보낸 데이터가 여기 b0 슬롯으로 들어옵니다)
+// HLSL에서 cbuffer 내부에 선언된 변수는 쉐이더 함수 어디서든 그냥 가져다 쓸 수 있는 전역 변수처럼 동작
+cbuffer TransformData : register(b0)
+{
+    float3 offset; // 위치 이동값
+    float padding; // 16바이트 정렬을 위한 패딩
+};
+
 struct VS_INPUT
 {
     float3 pos : POSITION;
@@ -10,11 +18,14 @@ struct VS_OUTPUT
     float4 color : COLOR;
 };
 
-// 1. 버텍스 셰이더: 점의 위치를 잡아줍니다.
+// 버텍스 셰이더: 정점의 위치를 잡아줍니다.
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.pos = float4(input.pos, 1.0f);
+    // CPU에서 받은 offset을 더해줍니다.
+    
+    float3 finalPos = input.pos + offset;
+    output.pos = float4(finalPos, 1.0f);
     output.color = input.color;
     return output;
 }

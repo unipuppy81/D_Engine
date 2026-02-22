@@ -45,18 +45,41 @@ void GraphicsDevice::Init() {
 	_viewport.Height = static_cast<float>(rc.bottom - rc.top);
 	_viewport.MaxDepth = 1.0f;
 	_viewport.MinDepth = 0.0f;
+
+
+	// 5. DepthStencilView 생성
+	D3D11_TEXTURE2D_DESC dsd = {};
+	dsd.Width = static_cast<UINT>(rc.right - rc.left);
+	dsd.Height = static_cast<UINT>(rc.bottom - rc.top);
+	dsd.MipLevels = 1;
+	dsd.ArraySize = 1;
+	dsd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	// 24비트는 깊이(D), 8비트는 스텐실(S)
+	dsd.SampleDesc.Count = 1;
+	dsd.SampleDesc.Quality = 0;
+	dsd.Usage = D3D11_USAGE_DEFAULT;
+	dsd.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	// 실제 텍스처 생성
+	_device->CreateTexture2D(&dsd, nullptr, &_depthStencilBuffer);
+	// 텍스처를 DSV 형태로 생성
+	_device->CreateDepthStencilView(_depthStencilBuffer.Get(), nullptr, &_depthStencilView);
 }
 
 void GraphicsDevice::RenderBegin()
 {
 	float clearColor[4] = { 0.1f, 0.15f, 0.3f, 1.0f };
 
-	// 지휘관에게 도화지를 깨끗하게 닦으라고 명령
+	// 1. RenderTarget 초기화
 	_context->ClearRenderTargetView(_renderTargetView.Get(), clearColor);
 
-	// 지휘관에게 "어떤 도화지에(RTV)", "어떤 영역(Viewport)"에 그릴지 알려줌
+	// 2. DepthStencilView 초기화 (가장 먼 거리인 1.0f로 초기화)
+	_context->ClearDepthStencilView(_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	// 3. 뷰포트 설정
 	_context->RSSetViewports(1, &_viewport);
-	_context->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), nullptr);
+
+	// 4. 도화지와 깊이 기록부 동시에 연결 (마지막 인자가 nullptr에서 _depthStencilView로 변경)
+	_context->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
 }
 
 void GraphicsDevice::RenderEnd() {

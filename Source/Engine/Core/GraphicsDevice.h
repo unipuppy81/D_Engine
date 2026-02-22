@@ -31,4 +31,8 @@ private:
 
 	ComPtr<ID3D11RenderTargetView>	_renderTargetView;	// 실제 그릴 도화지
 	D3D11_VIEWPORT					_viewport = {};		// 도화지 중 어디에 그릴지 정하는 영역
+
+	ComPtr<ID3D11Texture2D>         _depthStencilBuffer; // 실제 깊이 값이 저장될 텍스처
+	ComPtr<ID3D11DepthStencilView>  _depthStencilView;   // 깊이 버퍼를 바라보는 뷰
+	
 };
