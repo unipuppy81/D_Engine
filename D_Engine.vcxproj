@@ -134,6 +134,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Window.h" />
+    <ClInclude Include="Source\Engine\Core\VertexBuffer.h" />
+    <ClInclude Include="Source\Engine\Core\IndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Default.hlsl">
