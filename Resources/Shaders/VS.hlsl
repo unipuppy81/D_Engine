@@ -4,10 +4,15 @@
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    // CPU에서 받은 offset을 더해줍니다.
+
+    // 위치 변환 (Local -> World -> Projection)
+    float4 pos = float4(input.pos, 1.0f);
     
-    float3 finalPos = input.pos + offset;
-    output.pos = float4(finalPos, 1.0f);
+    pos = mul(pos, matWorld);
+    pos = mul(pos, matView);
+    pos = mul(pos, matProjection);
+    
+    output.pos = pos;
     output.color = input.color;
     return output;
 }

@@ -3,7 +3,7 @@
 // 생성자: 윈도우 핸들을 멤버 변수에 저장
 GraphicsDevice::GraphicsDevice(HWND hwnd) : _hwnd(hwnd) {}
 
-void GraphicsDevice::Init(int w, int h, bool vsync, HWND hwnd, bool fullScrren) {
+void GraphicsDevice::Init(int w, int h, bool vsync, HWND hwnd, bool windowScrren) {
 	_vsync_enabled = vsync;
 	
 	// 1. SwapChain 설정
@@ -15,12 +15,11 @@ void GraphicsDevice::Init(int w, int h, bool vsync, HWND hwnd, bool fullScrren) 
 	sd.SampleDesc.Count = 1;					// 안티에일리어싱(계단현상 방지) 꺼둠
 	sd.BufferDesc.Width = w;
 	sd.BufferDesc.Height = h;
-	sd.Windowed = fullScrren;					// 창모드
+	sd.Windowed = windowScrren;					// 창모드
 
 
 
 	// 2. Device & SwapChian 생성
-
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,						// 기본 그래픽 카드 사용
 		D3D_DRIVER_TYPE_HARDWARE,		// 그래픽 카드 하드웨어 가속 사용

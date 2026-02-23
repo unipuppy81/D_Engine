@@ -9,7 +9,7 @@ using float4 = XMFLOAT4;
 using Color = XMFLOAT4;
 
 
-
+// 정점 구조체 (IA 단계용)
 struct Vertex {	// Color
 	float3 pos;
 	float4 color;
@@ -20,8 +20,10 @@ struct VertexTexture { // Texture
 	float2 uv;
 };
 
-struct VertexFull { // Lighting + Texture
-	float3 pos;
-	float2 uv;
-	float3 normal;
+
+// 상수 버퍼 구조체 (VS 단계용)
+struct TransformData {
+	XMMATRIX matWorld;      // 월드 변환
+	XMMATRIX matView;       // 뷰포트 변환
+	XMMATRIX matProjection; // 투영 변환 
 };

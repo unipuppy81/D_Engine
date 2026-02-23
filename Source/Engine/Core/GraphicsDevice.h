@@ -11,7 +11,7 @@ public:
 	~GraphicsDevice() = default;
 
 	// 초기화 : 그래픽 카드와 통신할 준비
-	void Init(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen);
+	void Init(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool windowScrren);
 	void Shutdown();
 
 
