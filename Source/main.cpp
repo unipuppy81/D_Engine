@@ -16,34 +16,21 @@ struct Vertex {
 	float r, g, b, a;
 };
 
-// 1. 상수 버퍼에 담을 구조체 정의 (HLSL과 순서가 같아야 함)
+// 상수 버퍼에 담을 구조체 정의 (HLSL과 순서가 같아야 함)
 struct TransformData {
 	float x, y, z;
 	float padding; // 16바이트 정렬용
 };
 
 int main() {
+	// 0. 윈도우 창 준비
 	Window window;
 	if (!window.Create(L"D_Engine", 1280, 720)) return -1;
 
 	GraphicsDevice graphics(window.GetHWND());
 	graphics.Init();
 
-
-	ConstantBuffer<TransformData> cb;
-	cb.Create(graphics.GetDevice());
-
-	TransformData data = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-	RasterizerState rs;
-	// 일반적인 설정: 면을 채우고(SOLID), 뒷면은 그리지 마라(BACK) -> while문 전에 실행하기만 하면 됨
-	
-	// D3D11_FILL_WIREFRAME(디버그용), D3D11_FILL_SOLID (기본값)
-	// D3D11_CULL_BACK vs D3D11_CULL_NONE (컬링)
-	rs.Create(graphics.GetDevice(), D3D11_FILL_WIREFRAME, D3D11_CULL_NONE);
-
-
-	// 1. 데이터 준비
+	// 1. 데이터 준비 (CPU Memory)
 	std::vector<Vertex> vertices = {
 		{ -0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f }, // 0: 왼쪽 위
 		{  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f }, // 1: 오른쪽 위
@@ -55,32 +42,37 @@ int main() {
 		0, 1, 2,
 		0, 2, 3
 	};
-
-	// 2. 버퍼 생성
-	VertexBuffer vb;
-	vb.Create(graphics.GetDevice(), vertices);
-
-	IndexBuffer ib;
-	ib.Create(graphics.GetDevice(), indices);
-
-	// 3. 셰이더 생성
-
-	/*
-	* 기존 방식인데 Blob 는 기계어 덩어리 그거를 vertex, pixel 에 넣은것
-	ComPtr<ID3DBlob> vsBlob, psBlob;
-	ComPtr<ID3D11VertexShader> vertexShader;
-	ComPtr<ID3D11PixelShader> pixelShader;
-	*/
-	// 셰이더 컴파일
-	Shader shader;
-	shader.Create(graphics.GetDevice(), L"C:/Users/unipu/Documents/GitHub/D_Engine/Resources/Shaders/Default.hlsl", "VS", "PS");
-
+	TransformData data = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	// 상수 버퍼용 데이터 2개 준비
 	// 사각형 A: 앞 (Z = 0.0f)
 	TransformData dataA = { -0.2f, 0.0f, 0.0f, 0.0f };
 	// 사각형 B: 뒤 (Z = 0.5f) - 사각형 A와 살짝 겹치게 배치
 	TransformData dataB = { 0.2f, 0.0f, 0.5f, 0.0f };
+
+	// 2. GPU 버퍼 생성 (GPU Memory)
+	VertexBuffer vb;
+	vb.Create(graphics.GetDevice(), vertices);
+
+	IndexBuffer ib;
+	ib.Create(graphics.GetDevice(), indices);
+
+	ConstantBuffer<TransformData> cb;
+	cb.Create(graphics.GetDevice());
+
+
+
+	// 3. 상태 및 쉐이더 생성
+	//Shader shader; shader.Create(graphics.GetDevice(), L"C:/Users/unipu/Documents/GitHub/D_Engine/Resources/Shaders/Default.hlsl", "VS", "PS");
+	Shader vs, ps;
+	vs.CreateVertexShader(graphics.GetDevice(), L"C:/Users/unipu/Documents/GitHub/D_Engine/Resources/Shaders/VS.hlsl", "VS");
+	ps.CreatePixelShader(graphics.GetDevice(), L"C:/Users/unipu/Documents/GitHub/D_Engine/Resources/Shaders/PS.hlsl", "PS");
+
+	// 일반적인 설정: 면을 채우고(SOLID), 뒷면은 그리지 마라(BACK)
+	// D3D11_FILL_WIREFRAME(디버그용), D3D11_FILL_SOLID (기본값)
+	// D3D11_CULL_BACK vs D3D11_CULL_NONE (컬링)
+	RasterizerState rs;
+	rs.Create(graphics.GetDevice(), D3D11_FILL_SOLID, D3D11_CULL_NONE);
 
 
 	// 4. 게임 루프
@@ -98,7 +90,8 @@ int main() {
 
 
 		// 쉐이더 장착 (VS, PS, InputLayout이 한꺼번에 셋팅됩니다)
-		shader.Bind(context);
+		vs.Bind(context);
+		ps.Bind(context);
 
 		// 버퍼 장착
 		vb.Bind(context);
@@ -117,8 +110,6 @@ int main() {
 		// 깊이 버퍼가 정상이라면 사각형 A 뒤에 가려져야 합니다.
 		cb.Update(context, dataB);
 		cb.Bind(context, 0);
-		context->DrawIndexed(ib.GetCount(), 0, 0);
-
 
 		// 그리기 (인덱스 수만큼)
 		context->DrawIndexed(ib.GetCount(), 0, 0);
