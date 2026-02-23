@@ -20,7 +20,7 @@ public:
      * @param vertices 정점 데이터 리스트 (std::vector)
      */
 	template<typename T>
-	void Create(ComPtr<ID3D11Device> device, const std::vector<T>& vertices) {
+	bool Create(ComPtr<ID3D11Device> device, const std::vector<T>& vertices) {
         // 1. 정점 하나당 크기(Stride)와 전체 개수(Count) 저장
         _stride = sizeof(T);
         _count = (uint32_t)vertices.size();
@@ -37,7 +37,13 @@ public:
         initData.pSysMem = vertices.data();     // 실제 정점 데이터가 있는 메모리 주소
 
         // 4. GPU 메모리에 실제 버퍼 생성
-        device->CreateBuffer(&bd, &initData, _buffer.GetAddressOf());
+        HRESULT hr = device->CreateBuffer(&bd, &initData, _buffer.GetAddressOf());
+
+        if (FAILED(hr)) {
+            return false;
+        }
+
+        return true;
 	}
 
     // 이 버퍼를 GPU 파이프라인(Input Assembler)에 장착합니다.

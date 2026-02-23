@@ -13,7 +13,7 @@ public:
 
     //정점 인덱스 데이터를 바탕으로 GPU 인덱스 버퍼를 생성합니다.
     //인덱스 데이터 (uint32_t 리스트)
-    void Create(ComPtr<ID3D11Device> device, const std::vector<uint32_t>& indices) {
+    bool Create(ComPtr<ID3D11Device> device, const std::vector<uint32_t>& indices) {
         _count = (uint32_t)indices.size();
 
         // 1. 버퍼의 설정값 정의
@@ -27,7 +27,13 @@ public:
         initData.pSysMem = indices.data();
 
         // 3. GPU 버퍼 생성
-        device->CreateBuffer(&bd, &initData, _buffer.GetAddressOf());
+        HRESULT hr = device->CreateBuffer(&bd, &initData, _buffer.GetAddressOf());
+
+        if (FAILED(hr)) {
+            return false;
+        }
+
+        return true;
     }
 
     // 이 인덱스 버퍼를 GPU 파이프라인에 장착합니다.

@@ -11,18 +11,19 @@ public:
 	~GraphicsDevice() = default;
 
 	// 초기화 : 그래픽 카드와 통신할 준비
-	void Init();
+	void Init(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen);
+	void Shutdown();
 
-	// 렌더링 시작: 화면 지우고 그릴 준비
-	void RenderBegin();
 
-	// 렌더링 종료: 그린 그림 실제 모니터로 보냄
+	// 매 프레임 시작과 끝, Begin 에서 다 지우고 End 에서 보냄
+	void RenderBegin(float red, float green, float blue, float alpha);
 	void RenderEnd();
 
 	ComPtr<ID3D11Device> GetDevice() { return _device; }
 	ComPtr<ID3D11DeviceContext> GetContext() { return _context; }
 private:
 	HWND _hwnd;
+	bool _vsync_enabled = false;
 
 	// --- DirectX 11 핵심 객체들 (ComPtr 사용으로 자동 메모리 관리) ---
 	ComPtr<ID3D11Device>		_device;		// 리소스(Mesh, Texture 등)를 만드는 장치
@@ -34,5 +35,4 @@ private:
 
 	ComPtr<ID3D11Texture2D>         _depthStencilBuffer; // 실제 깊이 값이 저장될 텍스처
 	ComPtr<ID3D11DepthStencilView>  _depthStencilView;   // 깊이 버퍼를 바라보는 뷰
-	
 };

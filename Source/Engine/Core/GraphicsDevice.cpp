@@ -3,7 +3,9 @@
 // 생성자: 윈도우 핸들을 멤버 변수에 저장
 GraphicsDevice::GraphicsDevice(HWND hwnd) : _hwnd(hwnd) {}
 
-void GraphicsDevice::Init() {
+void GraphicsDevice::Init(int w, int h, bool vsync, HWND hwnd, bool fullScrren) {
+	_vsync_enabled = vsync;
+	
 	// 1. SwapChain 설정
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	sd.BufferCount = 1;							// 백버퍼 개수
@@ -11,10 +13,15 @@ void GraphicsDevice::Init() {
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// 이 버퍼를 도화지로 쓴다
 	sd.OutputWindow = _hwnd;					// 그림 출력할 윈도우 창
 	sd.SampleDesc.Count = 1;					// 안티에일리어싱(계단현상 방지) 꺼둠
-	sd.Windowed = TRUE;							// 창모드
+	sd.BufferDesc.Width = w;
+	sd.BufferDesc.Height = h;
+	sd.Windowed = fullScrren;					// 창모드
 
-	// 2. 그래픽 카드(Device), Context, SwapChian 생성
-	D3D11CreateDeviceAndSwapChain(
+
+
+	// 2. Device & SwapChian 생성
+
+	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,						// 기본 그래픽 카드 사용
 		D3D_DRIVER_TYPE_HARDWARE,		// 그래픽 카드 하드웨어 가속 사용
 		nullptr, 0, nullptr, 0,
@@ -36,13 +43,13 @@ void GraphicsDevice::Init() {
 	_device->CreateRenderTargetView(backBuffer.Get(), nullptr, &_renderTargetView);
 
 
-	// 4. Viewport 설정: 창의 어느 영역에 그림 채울지 결정
+	// 4. Viewport 설정
 	RECT rc;
 	GetClientRect(_hwnd, &rc);		// 현재 윈도우 창의 크기
 	_viewport.TopLeftX = 0;
 	_viewport.TopLeftY = 0;
-	_viewport.Width = static_cast<float>(rc.right - rc.left);
-	_viewport.Height = static_cast<float>(rc.bottom - rc.top);
+	_viewport.Width = static_cast<float>(w);
+	_viewport.Height = static_cast<float>(h);
 	_viewport.MaxDepth = 1.0f;
 	_viewport.MinDepth = 0.0f;
 
@@ -63,14 +70,36 @@ void GraphicsDevice::Init() {
 	_device->CreateTexture2D(&dsd, nullptr, &_depthStencilBuffer);
 	// 텍스처를 DSV 형태로 생성
 	_device->CreateDepthStencilView(_depthStencilBuffer.Get(), nullptr, &_depthStencilView);
+
+
+	// 6. 생성된 뷰들을 GPU 파이프라인(Output Merger)에 장착
+	_context->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
+
+	// 7. 뷰포트도 이때 한 번 장착해두면 편리합니다.
+	_context->RSSetViewports(1, &_viewport);
 }
 
-void GraphicsDevice::RenderBegin()
+void GraphicsDevice::Shutdown() {
+	// 전체화면은 종료 전 해제
+	if (_swapChain) {
+		_swapChain->SetFullscreenState(FALSE, nullptr);
+	}
+
+	// ComPtr이므로 nullptr 대입 시 참조 횟수가 감소하며 해제됩니다.
+	_renderTargetView.Reset();
+	_depthStencilView.Reset();
+	_depthStencilBuffer.Reset();
+	_swapChain.Reset();
+	_context.Reset();
+	_device.Reset();
+}
+
+void GraphicsDevice::RenderBegin(float r, float g, float b, float a)
 {
-	float clearColor[4] = { 0.1f, 0.15f, 0.3f, 1.0f };
+	float color[4] = { r, g, b, a };
 
 	// 1. RenderTarget 초기화
-	_context->ClearRenderTargetView(_renderTargetView.Get(), clearColor);
+	_context->ClearRenderTargetView(_renderTargetView.Get(), color);
 
 	// 2. DepthStencilView 초기화 (가장 먼 거리인 1.0f로 초기화)
 	_context->ClearDepthStencilView(_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
