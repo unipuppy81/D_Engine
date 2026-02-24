@@ -49,9 +49,14 @@ public:
     }
 
     // 쉐이더의 특정 슬롯에 이 버퍼를 장착
-    void Bind(ComPtr<ID3D11DeviceContext> context, uint32_t slot) {
+    void BindVS(ComPtr<ID3D11DeviceContext> context, uint32_t slot) {
         // 버텍스 셰이더(VS)의 상수 버퍼 슬롯에 장착
         context->VSSetConstantBuffers(slot, 1, _buffer.GetAddressOf());
+    }
+
+    void BindPS(ComPtr<ID3D11DeviceContext> context, uint32_t slot) {
+        // 픽셀 셰이더(PS)의 상수 버퍼 슬롯에 장착
+        context->PSSetConstantBuffers(slot, 1, _buffer.GetAddressOf());
     }
 
 

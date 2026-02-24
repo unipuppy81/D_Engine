@@ -9,17 +9,25 @@ cbuffer TransformData : register(b0)
 };
 
 
+cbuffer LightBuffer : register(b1)     // b0 : transform, b1 : Light
+{
+    float4 lightDiffuse;
+    float3 lightDir;
+    float padding;
+};
 
 // 데이터 구조체 정의
 struct VS_INPUT
 {
     float3 pos : POSITION;
     float4 color : COLOR;
+    float3 normal : NORMAL;
 };
 
 struct VS_OUTPUT
 {
     float4 pos : SV_POSITION; 
     float4 color : COLOR;
+    float3 normal : NORMAL;
 };
 

@@ -23,24 +23,21 @@ int main() {
 	graphics.Init(1280, 720, true, window.GetHWND(), true);
 
 
+
 	// 도구 준비
 	Model* model = new Model();
 	if (!model->Initialize(graphics.GetDevice())) return -1;
-
 	ColorShader* cs = new ColorShader();
 	if (!cs->Initialize(graphics.GetDevice())) return -1;
-
-
 	RasterizerState rs;
 	rs.Create(graphics.GetDevice(), D3D11_FILL_SOLID, D3D11_CULL_NONE);
 
+
 	// 실시간 데이터
-	TransformData dataA, dataB;
 	Transform* transformA = new Transform();
 	Transform* transformB = new Transform();
 	transformA->SetPosition(-0.5f, 0.0f, 0.0f);
 	transformB->SetPosition(0.5f, 0.0f, 0.0f);
-
 
 	Camera* camera = new Camera();
 	camera->SetEye(0, 0, -10.0f);		// 카메라 위치

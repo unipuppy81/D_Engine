@@ -71,7 +71,7 @@
     <ClInclude Include="Source\Engine\Core\Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Vertex.h">
+    <ClInclude Include="Source\Engine\Core\StructData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Transform.h">

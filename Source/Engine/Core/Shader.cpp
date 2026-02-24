@@ -27,9 +27,10 @@ void Shader::Create(ComPtr<ID3D11Device> device, const std::wstring& path, const
     D3D11_INPUT_ELEMENT_DESC layoutDesc[] = {
         // [항목 이름], [인덱스], [데이터 타입], [슬롯], [시작 지점(Offset)], [분류], [인스턴스데이터]
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 }
     };
-    device->CreateInputLayout(layoutDesc, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
+    device->CreateInputLayout(layoutDesc, 3, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
 }
 
 void Shader::CreateVertexShader(ComPtr<ID3D11Device> device, const std::wstring& path, const std::string& vsName) {
@@ -45,9 +46,10 @@ void Shader::CreateVertexShader(ComPtr<ID3D11Device> device, const std::wstring&
 
     D3D11_INPUT_ELEMENT_DESC layoutDesc[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 }
     };
-    device->CreateInputLayout(layoutDesc, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
+    device->CreateInputLayout(layoutDesc, 3, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &_inputLayout);
 }
 
 void Shader::CreatePixelShader(ComPtr<ID3D11Device> device, const std::wstring& path, const std::string& psName) {

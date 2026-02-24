@@ -13,6 +13,7 @@ using Color = XMFLOAT4;
 struct Vertex {	// Color
 	float3 pos;
 	float4 color;
+	float3 normal;
 };
 
 struct VertexTexture { // Texture
@@ -26,4 +27,11 @@ struct TransformData {
 	XMMATRIX matWorld;      // 월드 변환
 	XMMATRIX matView;       // 뷰포트 변환
 	XMMATRIX matProjection; // 투영 변환 
+};
+
+
+struct LightData {
+	float4 diffuse;	// 빛의 색상 (RGBA)
+	float3 direction;	// 빛이 나가는 방향
+	float padding;		// 패딩
 };

@@ -4,6 +4,7 @@
 #include <wrl/client.h>
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "StructData.h"
 
 using Microsoft::WRL::ComPtr;
 

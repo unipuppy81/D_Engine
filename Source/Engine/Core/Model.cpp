@@ -1,5 +1,4 @@
 #include "Model.h"
-#include "Vertex.h"
 
 bool Model::Initialize(ComPtr<ID3D11Device> device) {
     // 1. 실제 버퍼(Vertex/Index) 생성 로직 호출
@@ -28,34 +27,52 @@ bool Model::InitializeBuffers(ComPtr<ID3D11Device> device) {
     // 나중에 이 부분은 파일 로드(FBX, OBJ 등)로 대체될 영역입니다.
     // 1. 8개의 꼭짓점 정의 (앞면 4개, 뒷면 4개)
     std::vector<Vertex> vertices = {
-        // 앞면 (Z = -0.5f)
-        { float3(-0.5f,  0.5f, -0.5f), float4(1.0f, 0.0f, 0.0f, 1.0f) }, // 0: 좌상
-        { float3(0.5f,  0.5f, -0.5f), float4(0.0f, 1.0f, 0.0f, 1.0f) }, // 1: 우상
-        { float3(0.5f, -0.5f, -0.5f), float4(0.0f, 0.0f, 1.0f, 1.0f) }, // 2: 우하
-        { float3(-0.5f, -0.5f, -0.5f), float4(1.0f, 1.0f, 1.0f, 1.0f) }, // 3: 좌하
+        // 1. 앞면 (Normal: 0, 0, -1)
+        { float3(-0.5f,  0.5f, -0.5f), float4(1, 0, 0, 1), float3(0, 0, -1) },
+        { float3(0.5f,  0.5f, -0.5f), float4(0, 1, 0, 1), float3(0, 0, -1) },
+        { float3(0.5f, -0.5f, -0.5f), float4(0, 0, 1, 1), float3(0, 0, -1) },
+        { float3(-0.5f, -0.5f, -0.5f), float4(1, 1, 1, 1), float3(0, 0, -1) },
 
-        // 뒷면 (Z = 0.5f)
-        { float3(-0.5f,  0.5f,  0.5f), float4(0.0f, 1.0f, 1.0f, 1.0f) }, // 4: 좌상
-        { float3(0.5f,  0.5f,  0.5f), float4(1.0f, 0.0f, 1.0f, 1.0f) }, // 5: 우상
-        { float3(0.5f, -0.5f,  0.5f), float4(1.0f, 1.0f, 0.0f, 1.0f) }, // 6: 우하
-        { float3(-0.5f, -0.5f,  0.5f), float4(0.0f, 0.0f, 0.0f, 1.0f) }  // 7: 좌하
+        // 2. 뒷면 (Normal: 0, 0, 1)
+        { float3(-0.5f,  0.5f,  0.5f), float4(0, 1, 1, 1), float3(0, 0, 1) },
+        { float3(0.5f,  0.5f,  0.5f), float4(1, 0, 1, 1), float3(0, 0, 1) },
+        { float3(0.5f, -0.5f,  0.5f), float4(1, 1, 0, 1), float3(0, 0, 1) },
+        { float3(-0.5f, -0.5f,  0.5f), float4(0, 0, 0, 1), float3(0, 0, 1) },
+
+        // 3. 윗면 (Normal: 0, 1, 0)
+        { float3(-0.5f,  0.5f,  0.5f), float4(1, 0, 0, 1), float3(0, 1, 0) },
+        { float3(0.5f,  0.5f,  0.5f), float4(0, 1, 0, 1), float3(0, 1, 0) },
+        { float3(0.5f,  0.5f, -0.5f), float4(0, 0, 1, 1), float3(0, 1, 0) },
+        { float3(-0.5f,  0.5f, -0.5f), float4(1, 1, 1, 1), float3(0, 1, 0) },
+
+        // 4. 아랫면 (Normal: 0, -1, 0)
+        { float3(-0.5f, -0.5f, -0.5f), float4(0, 1, 1, 1), float3(0, -1, 0) },
+        { float3(0.5f, -0.5f, -0.5f), float4(1, 0, 1, 1), float3(0, -1, 0) },
+        { float3(0.5f, -0.5f,  0.5f), float4(1, 1, 0, 1), float3(0, -1, 0) },
+        { float3(-0.5f, -0.5f,  0.5f), float4(0, 0, 0, 1), float3(0, -1, 0) },
+
+        // 5. 왼쪽면 (Normal: -1, 0, 0)
+        { float3(-0.5f,  0.5f,  0.5f), float4(1, 0, 0, 1), float3(-1, 0, 0) },
+        { float3(-0.5f,  0.5f, -0.5f), float4(0, 1, 0, 1), float3(-1, 0, 0) },
+        { float3(-0.5f, -0.5f, -0.5f), float4(0, 0, 1, 1), float3(-1, 0, 0) },
+        { float3(-0.5f, -0.5f,  0.5f), float4(1, 1, 1, 1), float3(-1, 0, 0) },
+
+        // 6. 오른쪽면 (Normal: 1, 0, 0)
+        { float3(0.5f,  0.5f, -0.5f), float4(0, 1, 1, 1), float3(1, 0, 0) },
+        { float3(0.5f,  0.5f,  0.5f), float4(1, 0, 1, 1), float3(1, 0, 0) },
+        { float3(0.5f, -0.5f,  0.5f), float4(1, 1, 0, 1), float3(1, 0, 0) },
+        { float3(0.5f, -0.5f, -0.5f), float4(0, 0, 0, 1), float3(1, 0, 0) }
     };
 
     // 2. 6개 면에 대한 인덱스 (삼각형 12개)
     // 시계 방향(CW)으로 정의해야 컬링에 안 잘립니다.
     std::vector<uint32_t> indices = {
-        // 앞면
-        0, 1, 2,  0, 2, 3,
-        // 뒷면
-        5, 4, 7,  5, 7, 6,
-        // 윗면
-        4, 5, 1,  4, 1, 0,
-        // 아랫면
-        3, 2, 6,  3, 6, 7,
-        // 왼쪽면
-        4, 0, 3,  4, 3, 7,
-        // 오른쪽면
-        1, 5, 6,  1, 6, 2
+    0, 1, 2, 0, 2, 3,       // 앞
+    4, 5, 6, 4, 6, 7,       // 뒤
+    8, 9, 10, 8, 10, 11,    // 위
+    12, 13, 14, 12, 14, 15, // 아래
+    16, 17, 18, 16, 18, 19, // 왼쪽
+    20, 21, 22, 20, 22, 23  // 오른쪽
     };
     _indexCount = static_cast<int>(indices.size());
 

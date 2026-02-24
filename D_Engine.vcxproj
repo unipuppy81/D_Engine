@@ -147,7 +147,7 @@
     <ClInclude Include="Source\Engine\Core\RasterizerState.h" />
     <ClInclude Include="Source\Engine\Core\Shader.h" />
     <ClInclude Include="Source\Engine\Core\Transform.h" />
-    <ClInclude Include="Source\Engine\Core\Vertex.h" />
+    <ClInclude Include="Source\Engine\Core\StructData.h" />
     <ClInclude Include="Source\Engine\Core\Window.h" />
     <ClInclude Include="Source\Engine\Core\VertexBuffer.h" />
     <ClInclude Include="Source\Engine\Core\IndexBuffer.h" />
