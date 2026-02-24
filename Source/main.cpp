@@ -8,6 +8,8 @@
 #include "Engine/Core/Model.h"
 #include "Engine/Core/ColorShader.h"
 #include "Engine/Core/Transform.h"
+#include "Engine/Core/Camera.h"
+#include "Engine/Core/MeshRenderer.h"
 
 #include <d3dcompiler.h>
 #include <memory>
@@ -42,6 +44,20 @@ int main() {
 	transformB->SetPosition(0.5f, 0.0f, 0.0f);
 
 
+	Camera* camera = new Camera();
+	camera->SetEye(0, 0, -10.0f);		// 카메라 위치
+
+
+	MeshRenderer* rendererA = new MeshRenderer();
+	rendererA->SetModel(model);
+	rendererA->SetShader(cs);
+	rendererA->SetTransform(transformA);
+
+	MeshRenderer* rendererB = new MeshRenderer();
+	rendererB->SetModel(model);
+	rendererB->SetShader(cs);
+	rendererB->SetTransform(transformB);
+
 	// 게임 루프
 	while (window.Run()) {
 		graphics.RenderBegin(0.1f, 0.1f, 0.1f, 1.0f);
@@ -50,51 +66,21 @@ int main() {
 		// 공통 상태 설정 (루프당 한 번)
 		rs.Bind(context);
 
-		// 무엇을 그릴지 먼저 세팅 (내부에서 vb, ib, topology 셋팅)
-		model->Render(context);
-
-
+		// --- 데이터 업데이트 (행렬 수동 계산 X) ---
 		static float rotation = 0.0f;
 		rotation += 0.01f;
-	
-		// --- 데이터 업데이트 (행렬 수동 계산 X) ---
 		transformA->SetRotation(rotation, rotation, 0.0f);
 		transformB->SetRotation(0.0f, -rotation, 0.0f);
 		
-		// --- 데이터 조립 ---
-		// World 행렬: Transform 클래스가 SRT 곱하기 + Transpose까지 해서 줍니다.
-		dataA.matWorld = transformA->GetWorldMatrix();
-		dataB.matWorld = transformB->GetWorldMatrix();
+		// 카메라 행렬 한 번만 준비 (V, P)
+		// Camera::GetViewMatrix() 내부에서 Transpose까지 해서 준다고 했으니 그대로 씁니다.
+		XMMATRIX view = camera->GetViewMatrix();
+		XMMATRIX proj = camera->GetProjectionMatrix();
 
-		// --- 뷰/투영 행렬 (카메라 캡슐화 전이라 일단 수동 계산) ---
-		XMMATRIX matView = XMMatrixLookAtLH(
-			XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
-			XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),
-			XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-		);
-		XMMATRIX matProj = XMMatrixPerspectiveFovLH(XM_PIDIV2, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		// 렌더링 (그리는 순서, 행렬 조립, Draw호출을 Renderer가 알아서 함)
+		rendererA->Render(context, view, proj);
+		rendererB->Render(context, view, proj);
 
-
-		// 데이터 조립 및 전치(Transpose)
-		// HLSL은 열 우선(Column-Major)이므로 Transpose가 필수입니다!
-		dataA.matView = XMMatrixTranspose(matView);
-		dataA.matProjection = XMMatrixTranspose(matProj);
-
-		dataB.matView = XMMatrixTranspose(matView);
-		dataB.matProjection = XMMatrixTranspose(matProj);
-
-
-
-		// --- 첫 번째 사각형 (A) 그리기 ---
-		// 어떻게 그릴지(Shader) + 데이터(dataA) 세팅 후 그리기
-		cs->Render(context, dataA);
-		context->DrawIndexed(model->GetIndexCount(), 0, 0);
-
-		// --- 두 번째 사각형 (B) 그리기 ---
-		// 데이터만 바꿔서(dataB) 다시 세팅 후 그리기
-		cs->Render(context, dataB);
-		context->DrawIndexed(model->GetIndexCount(), 0, 0);
-		
 		graphics.RenderEnd();
 	}
 

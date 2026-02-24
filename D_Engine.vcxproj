@@ -125,7 +125,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Engine\Core\Camera.cpp" />
     <ClCompile Include="Source\Engine\Core\ColorShader.cpp" />
+    <ClCompile Include="Source\Engine\Core\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\Core\Model.cpp" />
     <ClCompile Include="Source\Engine\Core\Shader.cpp" />
     <ClCompile Include="Source\Engine\Core\Transform.cpp" />
@@ -134,11 +136,13 @@
     <ClCompile Include="Source\Engine\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Core\Camera.h" />
     <ClInclude Include="Source\Engine\Core\ColorShader.h" />
     <ClInclude Include="Source\Engine\Core\ConstantBuffer.h" />
     <ClInclude Include="Source\Engine\Core\GraphicsDevice.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Core\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\Core\Model.h" />
     <ClInclude Include="Source\Engine\Core\RasterizerState.h" />
     <ClInclude Include="Source\Engine\Core\Shader.h" />
