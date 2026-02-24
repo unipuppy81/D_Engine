@@ -7,6 +7,7 @@
 #include "Engine/Core/RasterizerState.h"
 #include "Engine/Core/Model.h"
 #include "Engine/Core/ColorShader.h"
+#include "Engine/Core/Transform.h"
 
 #include <d3dcompiler.h>
 #include <memory>
@@ -35,6 +36,11 @@ int main() {
 
 	// 실시간 데이터
 	TransformData dataA, dataB;
+	Transform* transformA = new Transform();
+	Transform* transformB = new Transform();
+	transformA->SetPosition(-0.5f, 0.0f, 0.0f);
+	transformB->SetPosition(0.5f, 0.0f, 0.0f);
+
 
 	// 게임 루프
 	while (window.Run()) {
@@ -47,35 +53,37 @@ int main() {
 		// 무엇을 그릴지 먼저 세팅 (내부에서 vb, ib, topology 셋팅)
 		model->Render(context);
 
+
 		static float rotation = 0.0f;
-		rotation += 0.01f; // 매 프레임 조금씩 회전
+		rotation += 0.01f;
+	
+		// --- 데이터 업데이트 (행렬 수동 계산 X) ---
+		transformA->SetRotation(rotation, rotation, 0.0f);
+		transformB->SetRotation(0.0f, -rotation, 0.0f);
+		
+		// --- 데이터 조립 ---
+		// World 행렬: Transform 클래스가 SRT 곱하기 + Transpose까지 해서 줍니다.
+		dataA.matWorld = transformA->GetWorldMatrix();
+		dataB.matWorld = transformB->GetWorldMatrix();
 
-		// 1. World 행렬: 큐브를 회전시키고 위치를 잡음
-		// X, Y축으로 동시에 회전시키고, X축으로 -0.2f만큼 이동
-		XMMATRIX matWorldA = XMMatrixRotationY(rotation) * XMMatrixRotationX(rotation) * XMMatrixTranslation(-0.2f, 0.0f, 0.0f);
-		XMMATRIX matWorldB = XMMatrixRotationY(-rotation) * XMMatrixTranslation(0.2f, 0.0f, 0.5f);
-
-		// 2. View 행렬: 카메라 위치 (0, 0, -5)에서 (0, 0, 0)을 바라봄
+		// --- 뷰/투영 행렬 (카메라 캡슐화 전이라 일단 수동 계산) ---
 		XMMATRIX matView = XMMatrixLookAtLH(
 			XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
 			XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),
 			XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
 		);
-
-
-		// 3. Projection 행렬: 원근감 (화각 90도, 화면비율 16:9 기준)
 		XMMATRIX matProj = XMMatrixPerspectiveFovLH(XM_PIDIV2, 1280.0f / 720.0f, 0.1f, 1000.0f);
 
 
-		// 4. 데이터 조립 및 전치(Transpose)
+		// 데이터 조립 및 전치(Transpose)
 		// HLSL은 열 우선(Column-Major)이므로 Transpose가 필수입니다!
-		dataA.matWorld = XMMatrixTranspose(matWorldA);
 		dataA.matView = XMMatrixTranspose(matView);
 		dataA.matProjection = XMMatrixTranspose(matProj);
 
-		dataB.matWorld = XMMatrixTranspose(matWorldB);
 		dataB.matView = XMMatrixTranspose(matView);
 		dataB.matProjection = XMMatrixTranspose(matProj);
+
+
 
 		// --- 첫 번째 사각형 (A) 그리기 ---
 		// 어떻게 그릴지(Shader) + 데이터(dataA) 세팅 후 그리기

@@ -128,6 +128,7 @@
     <ClCompile Include="Source\Engine\Core\ColorShader.cpp" />
     <ClCompile Include="Source\Engine\Core\Model.cpp" />
     <ClCompile Include="Source\Engine\Core\Shader.cpp" />
+    <ClCompile Include="Source\Engine\Core\Transform.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Engine\Core\GraphicsDevice.cpp" />
     <ClCompile Include="Source\Engine\Core\Window.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Source\Engine\Core\Model.h" />
     <ClInclude Include="Source\Engine\Core\RasterizerState.h" />
     <ClInclude Include="Source\Engine\Core\Shader.h" />
+    <ClInclude Include="Source\Engine\Core\Transform.h" />
     <ClInclude Include="Source\Engine\Core\Vertex.h" />
     <ClInclude Include="Source\Engine\Core\Window.h" />
     <ClInclude Include="Source\Engine\Core\VertexBuffer.h" />
