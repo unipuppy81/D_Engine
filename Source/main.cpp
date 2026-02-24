@@ -30,9 +30,7 @@ int main() {
 	ColorShader* cs = new ColorShader();
 	if (!cs->Initialize(graphics.GetDevice())) return -1;
 
-	// 일반적인 설정: 면을 채우고(SOLID), 뒷면은 그리지 마라(BACK)
-	// D3D11_FILL_WIREFRAME(디버그용), D3D11_FILL_SOLID (기본값)
-	// D3D11_CULL_BACK vs D3D11_CULL_NONE (컬링)
+
 	RasterizerState rs;
 	rs.Create(graphics.GetDevice(), D3D11_FILL_SOLID, D3D11_CULL_NONE);
 
@@ -66,6 +64,8 @@ int main() {
 		// 공통 상태 설정 (루프당 한 번)
 		rs.Bind(context);
 
+		camera->Update();
+
 		// --- 데이터 업데이트 (행렬 수동 계산 X) ---
 		static float rotation = 0.0f;
 		rotation += 0.01f;
@@ -73,7 +73,6 @@ int main() {
 		transformB->SetRotation(0.0f, -rotation, 0.0f);
 		
 		// 카메라 행렬 한 번만 준비 (V, P)
-		// Camera::GetViewMatrix() 내부에서 Transpose까지 해서 준다고 했으니 그대로 씁니다.
 		XMMATRIX view = camera->GetViewMatrix();
 		XMMATRIX proj = camera->GetProjectionMatrix();
 

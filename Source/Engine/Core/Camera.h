@@ -1,5 +1,9 @@
 #pragma once
+#include "Window.h"
+
+
 #include <DirectXMath.h>
+
 
 using namespace DirectX;
 
@@ -14,6 +18,8 @@ public:
 
 	// 화면 설정 (Projection)
 	void SetLens(float fovY, float aspect, float nearZ, float farZ);
+
+	void Update();
 
 	// 행렬 가져오기 (이미 Transpose 된거)
 	XMMATRIX GetViewMatrix();
