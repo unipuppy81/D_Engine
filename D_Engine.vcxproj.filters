@@ -18,28 +18,34 @@
     <ClCompile Include="Source\Engine\Core\Window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\GraphicsDevice.cpp">
+    <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\ColorShader.cpp">
+    <ClCompile Include="Source\Engine\Graphics\ColorShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Model.cpp">
+    <ClCompile Include="Source\Engine\Graphics\Model.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Shader.cpp">
+    <ClCompile Include="Source\Engine\Graphics\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Transform.cpp">
+    <ClCompile Include="Source\Engine\Component\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Camera.cpp">
+    <ClCompile Include="Source\Engine\Component\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Core\MeshRenderer.cpp">
+    <ClCompile Include="Source\Engine\Component\MeshRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Engine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Core\Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,40 +53,46 @@
     <ClInclude Include="Source\Engine\Core\Window.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\GraphicsDevice.h">
+    <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\VertexBuffer.h">
+    <ClInclude Include="Source\Engine\Graphics\VertexBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\IndexBuffer.h">
+    <ClInclude Include="Source\Engine\Graphics\IndexBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Shader.h">
+    <ClInclude Include="Source\Engine\Graphics\Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\ConstantBuffer.h">
+    <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\RasterizerState.h">
+    <ClInclude Include="Source\Engine\Graphics\RasterizerState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\ColorShader.h">
+    <ClInclude Include="Source\Engine\Graphics\ColorShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Model.h">
+    <ClInclude Include="Source\Engine\Graphics\Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\StructData.h">
+    <ClInclude Include="Source\Engine\Shared\StructData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Transform.h">
+    <ClInclude Include="Source\Engine\Component\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Camera.h">
+    <ClInclude Include="Source\Engine\Component\Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\MeshRenderer.h">
+    <ClInclude Include="Source\Engine\Component\MeshRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Engine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Timer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

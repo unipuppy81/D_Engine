@@ -1,26 +1,41 @@
-#include "Engine/Core/Window.h"
-#include "Engine/Core/GraphicsDevice.h"
-#include "Engine/Core/VertexBuffer.h"
-#include "Engine/Core/IndexBuffer.h"
-#include "Engine/Core/Shader.h"
-#include "Engine/Core/ConstantBuffer.h"
-#include "Engine/Core/RasterizerState.h"
-#include "Engine/Core/Model.h"
-#include "Engine/Core/ColorShader.h"
-#include "Engine/Core/Transform.h"
-#include "Engine/Core/Camera.h"
-#include "Engine/Core/MeshRenderer.h"
+//#include "Engine/Core/Window.h"
+//#include "Engine/Core/Timer.h"
+//#include "Engine/Graphics/GraphicsDevice.h"
+//#include "Engine/Graphics/VertexBuffer.h"
+//#include "Engine/Graphics/IndexBuffer.h"
+//#include "Engine/Graphics/Shader.h"
+//#include "Engine/Graphics/ConstantBuffer.h"
+//#include "Engine/Graphics/RasterizerState.h"
+//#include "Engine/Graphics/Model.h"
+//#include "Engine/Graphics/ColorShader.h"
+//#include "Engine/Component/Transform.h"
+//#include "Engine/Component/Camera.h"
+//#include "Engine/Component/MeshRenderer.h"
+#include "Engine/Core/Engine.h"
 
 #include <d3dcompiler.h>
 #include <memory>
 #include <vector>
 
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow) {
+	// Engine Start
+	if (!Engine::Get().Initialize(hInstance, 1280, 720)) return -1;
+
+	// 루프 실행
+	Engine::Get().Run();
+
+	// 자원 해제
+	Engine::Get().Finalize();
+
+	return 0;
+}
+/*
 int main() {
 	// 초기화
 	Window window;
 	if (!window.Create(L"D_Engine", 1280, 720)) return -1;
 	GraphicsDevice graphics(window.GetHWND());
-	graphics.Init(1280, 720, true, window.GetHWND(), true);
+	graphics.Initialize(1280, 720, true, window.GetHWND(), true);
 
 
 
@@ -82,3 +97,4 @@ int main() {
 
 	return 0;
 }
+*/

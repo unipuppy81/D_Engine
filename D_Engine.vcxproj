@@ -103,9 +103,10 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -125,32 +126,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Engine\Core\Camera.cpp" />
-    <ClCompile Include="Source\Engine\Core\ColorShader.cpp" />
-    <ClCompile Include="Source\Engine\Core\MeshRenderer.cpp" />
-    <ClCompile Include="Source\Engine\Core\Model.cpp" />
-    <ClCompile Include="Source\Engine\Core\Shader.cpp" />
-    <ClCompile Include="Source\Engine\Core\Transform.cpp" />
+    <ClCompile Include="Source\Engine\Component\Camera.cpp" />
+    <ClCompile Include="Source\Engine\Core\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Core\Timer.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\ColorShader.cpp" />
+    <ClCompile Include="Source\Engine\Component\MeshRenderer.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\Model.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
+    <ClCompile Include="Source\Engine\Component\Transform.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Engine\Core\GraphicsDevice.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp" />
     <ClCompile Include="Source\Engine\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Engine\Core\Camera.h" />
-    <ClInclude Include="Source\Engine\Core\ColorShader.h" />
-    <ClInclude Include="Source\Engine\Core\ConstantBuffer.h" />
-    <ClInclude Include="Source\Engine\Core\GraphicsDevice.h">
+    <ClInclude Include="Source\Engine\Component\Camera.h" />
+    <ClInclude Include="Source\Engine\Core\Engine.h" />
+    <ClInclude Include="Source\Engine\Core\Timer.h" />
+    <ClInclude Include="Source\Engine\Graphics\ColorShader.h" />
+    <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Core\MeshRenderer.h" />
-    <ClInclude Include="Source\Engine\Core\Model.h" />
-    <ClInclude Include="Source\Engine\Core\RasterizerState.h" />
-    <ClInclude Include="Source\Engine\Core\Shader.h" />
-    <ClInclude Include="Source\Engine\Core\Transform.h" />
-    <ClInclude Include="Source\Engine\Core\StructData.h" />
+    <ClInclude Include="Source\Engine\Component\MeshRenderer.h" />
+    <ClInclude Include="Source\Engine\Graphics\Model.h" />
+    <ClInclude Include="Source\Engine\Graphics\RasterizerState.h" />
+    <ClInclude Include="Source\Engine\Graphics\Shader.h" />
+    <ClInclude Include="Source\Engine\Component\Transform.h" />
+    <ClInclude Include="Source\Engine\Shared\StructData.h" />
     <ClInclude Include="Source\Engine\Core\Window.h" />
-    <ClInclude Include="Source\Engine\Core\VertexBuffer.h" />
-    <ClInclude Include="Source\Engine\Core\IndexBuffer.h" />
+    <ClInclude Include="Source\Engine\Graphics\VertexBuffer.h" />
+    <ClInclude Include="Source\Engine\Graphics\IndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\CBuffer.hlsl">

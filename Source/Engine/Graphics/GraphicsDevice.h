@@ -8,10 +8,11 @@ class GraphicsDevice {
 public:
 	// 생성자: 위도우 창의 번호 받아서 기억
 	GraphicsDevice(HWND hwnd);
+	GraphicsDevice() = default;
 	~GraphicsDevice() = default;
 
 	// 초기화 : 그래픽 카드와 통신할 준비
-	void Init(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool windowScrren);
+	void Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool windowScrren);
 	void Shutdown();
 
 

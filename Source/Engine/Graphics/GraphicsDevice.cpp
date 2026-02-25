@@ -3,7 +3,7 @@
 // 생성자: 윈도우 핸들을 멤버 변수에 저장
 GraphicsDevice::GraphicsDevice(HWND hwnd) : _hwnd(hwnd) {}
 
-void GraphicsDevice::Init(int w, int h, bool vsync, HWND hwnd, bool windowScrren) {
+void GraphicsDevice::Initialize(int w, int h, bool vsync, HWND hwnd, bool windowScrren) {
 	_vsync_enabled = vsync;
 	
 	// 1. SwapChain 설정

@@ -1,7 +1,7 @@
 #pragma once
 #include "Shader.h"
 #include "ConstantBuffer.h"
-#include "StructData.h"
+#include "Engine/Shared/StructData.h"
 
 class ColorShader {
 public:

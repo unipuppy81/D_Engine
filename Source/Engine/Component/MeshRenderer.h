@@ -1,6 +1,6 @@
 #pragma once
-#include "Model.h"
-#include "ColorShader.h"
+#include "Engine/Graphics/Model.h"
+#include "Engine/Graphics/ColorShader.h"
 #include "Transform.h"
 
 class MeshRenderer {
