@@ -1,7 +1,19 @@
 #include "Transform.h"
 
-Transform::Transform() {};
-Transform::~Transform() {};
+Transform::Transform() : Component(ObjectType::Component)
+{
+	_position = { 0.0f, 0.0f, 0.0f };
+	_rotation = { 0.0f, 0.0f, 0.0f };
+	_scale = { 1.0f, 1.0f, 1.0f };
+
+	_useQuaternion = false;
+	_parent = nullptr;
+}
+
+Transform::~Transform()
+{
+
+}
 
 Matrix Transform::GetWorldMatrix() {
 	// Scaling Matrix
