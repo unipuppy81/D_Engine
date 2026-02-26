@@ -1,7 +1,7 @@
 #pragma once
+#include "Engine/Core/Component.h"
 #include "Engine/Math/Vector.h"
 #include "Engine/Math/Matrix.h"
-#include "Engine/Core/Component.h"
 #include "Engine/Math/Quaternion.h"
 
 using namespace DirectX;
