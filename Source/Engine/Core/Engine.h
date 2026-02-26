@@ -8,6 +8,9 @@
 #include "Engine/Graphics/RasterizerState.h"
 #include "Engine/Graphics/GraphicsDevice.h"
 #include "Engine/Graphics/Model.h"
+#include "Engine/Math/Matrix.h"
+#include "Engine/Math/Quaternion.h"
+#include "Engine/Math/Vector.h"
 
 #include <memory>
 

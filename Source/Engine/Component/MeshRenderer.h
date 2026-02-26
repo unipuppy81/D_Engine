@@ -1,7 +1,8 @@
 #pragma once
 #include "Engine/Graphics/Model.h"
 #include "Engine/Graphics/ColorShader.h"
-#include "Transform.h"
+#include "Engine/Component/Transform.h"
+#include "Engine/Math/Matrix.h"
 
 class MeshRenderer {
 public:
@@ -14,7 +15,7 @@ public:
 	void SetTransform(Transform* transform) { _transform = transform; }
 
 	// 그리기 (행렬 조립 + 바인딩 + 드로우)
-	void Render(ComPtr<ID3D11DeviceContext> context, const XMMATRIX& view, const XMMATRIX& proj);
+	void Render(ComPtr<ID3D11DeviceContext> context, const Matrix& view, const Matrix& proj);
 
 private:
 	Model* _model = nullptr;

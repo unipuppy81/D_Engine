@@ -37,6 +37,10 @@ bool Engine::Initialize(HINSTANCE hInst, int width, int height) {
 	m_transformA->SetPosition(-0.5f, 0.0f, 0.0f);
 	m_transformB->SetPosition(0.5f, 0.0f, 0.0f);
 
+	m_transformB->SetScale(5, 5, 5);
+	m_transformA->SetParent(m_transformB.get());
+
+
 
 	// Renderer Set
 	m_rendererA = std::make_unique<MeshRenderer>();
@@ -48,6 +52,7 @@ bool Engine::Initialize(HINSTANCE hInst, int width, int height) {
 	m_rendererB->SetModel(m_model.get());
 	m_rendererB->SetShader(m_colorShader.get());
 	m_rendererB->SetTransform(m_transformB.get());
+
 
 
 	// Timer Reset -> 모든 로딩이 끝난 지금을 0초로 설정
@@ -81,11 +86,16 @@ void Engine::Run() {
 void Engine::Update(float dt) {
 	m_camera->Update();
 
+	
 	static float rotation = 0.0f;
 	rotation += 1.0f * dt; // 초당 1라디안 회전
 
+	// Transform A: 오일러 각 사용
 	m_transformA->SetRotation(rotation, rotation, 0.0f);
-	m_transformB->SetRotation(0.0f, -rotation, 0.0f);
+
+	// Transform B: 쿼터니언 사용 (qA만 남기고 덮어쓰기 제거)
+	Quaternion qB = Quaternion::FromEuler(0.0f, -rotation, 0.0f);
+	m_transformB->SetRotation(qB);
 }
 
 void Engine::Render() {
@@ -94,8 +104,8 @@ void Engine::Render() {
 
 	m_rasterizerState.Bind(context);
 
-	XMMATRIX view = m_camera->GetViewMatrix();
-	XMMATRIX proj = m_camera->GetProjectionMatrix();
+	Matrix view = m_camera->GetViewMatrix();
+	Matrix proj = m_camera->GetProjectionMatrix();
 
 	m_rendererA->Render(context, view, proj);
 	m_rendererB->Render(context, view, proj);
