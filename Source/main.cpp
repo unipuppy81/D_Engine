@@ -1,18 +1,20 @@
-#include "Engine/Core/Engine.h"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 
-#include <d3dcompiler.h>
-#include <memory>
-#include <vector>
+#include "Engine/Engine.h"
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow) {
-	// Engine Start
-	if (!Engine::Get().Initialize(hInstance, 1280, 720)) return -1;
+// WinMain: 프로그램의 진입점입니다.
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
+{
+    Unipuppy::Engine engine;
 
-	// 루프 실행
-	Engine::Get().Run();
+    // 1) 엔진 초기화 (윈도우 + D3D11 렌더 디바이스)
+    if (!engine.Initialize(hInstance, nCmdShow))
+    {
+        MessageBoxW(nullptr, L"엔진 초기화에 실패했습니다.", L"Unipuppy", MB_OK | MB_ICONERROR);
+        return -1;
+    }
 
-	// 자원 해제
-	Engine::Get().Finalize();
-
-	return 0;
+    // 2) 메인 루프 실행
+    return engine.Run();
 }

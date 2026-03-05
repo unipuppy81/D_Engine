@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Core\Input.cpp" />
+    <ClCompile Include="Source\Core\World.cpp" />
+    <ClCompile Include="Source\Engine\Engine.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Rendering\Camera.cpp" />
+    <ClCompile Include="Source\Rendering\D3D11\D3D11RenderDevice.cpp" />
+    <ClCompile Include="Source\Rendering\ForwardRenderSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Core\Component.h" />
+    <ClInclude Include="Source\Core\Entity.h" />
+    <ClInclude Include="Source\Core\Input.h" />
+    <ClInclude Include="Source\Core\System.h" />
+    <ClInclude Include="Source\Core\World.h" />
+    <ClInclude Include="Source\Engine\Engine.h" />
+    <ClInclude Include="Source\Rendering\Camera.h" />
+    <ClInclude Include="Source\Rendering\D3D11\D3D11RenderDevice.h" />
+    <ClInclude Include="Source\Rendering\D3D11\ID3D11RenderDevice.h" />
+    <ClInclude Include="Source\Rendering\ForwardRenderSystem.h" />
+    <ClInclude Include="Source\Rendering\IRenderDevice.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -125,62 +147,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\Engine\Component\Camera.cpp" />
-    <ClCompile Include="Source\Engine\Core\Component.cpp" />
-    <ClCompile Include="Source\Engine\Core\Engine.cpp" />
-    <ClCompile Include="Source\Engine\Core\GameObject.cpp" />
-    <ClCompile Include="Source\Engine\Core\Object.cpp" />
-    <ClCompile Include="Source\Engine\Core\Timer.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\ColorShader.cpp" />
-    <ClCompile Include="Source\Engine\Component\MeshRenderer.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\Model.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
-    <ClCompile Include="Source\Engine\Component\Transform.cpp" />
-    <ClCompile Include="Source\Engine\Math\Matrix.cpp" />
-    <ClCompile Include="Source\Engine\Math\Quaternion.cpp" />
-    <ClCompile Include="Source\Engine\Math\Vector.cpp" />
-    <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp" />
-    <ClCompile Include="Source\Engine\Core\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\Engine\Component\Camera.h" />
-    <ClInclude Include="Source\Engine\Core\Component.h" />
-    <ClInclude Include="Source\Engine\Core\Engine.h" />
-    <ClInclude Include="Source\Engine\Core\GameObject.h" />
-    <ClInclude Include="Source\Engine\Core\Object.h" />
-    <ClInclude Include="Source\Engine\Core\Timer.h" />
-    <ClInclude Include="Source\Engine\Graphics\ColorShader.h" />
-    <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h" />
-    <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Component\MeshRenderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\Model.h" />
-    <ClInclude Include="Source\Engine\Graphics\RasterizerState.h" />
-    <ClInclude Include="Source\Engine\Graphics\Shader.h" />
-    <ClInclude Include="Source\Engine\Component\Transform.h" />
-    <ClInclude Include="Source\Engine\Math\MathHelper.h" />
-    <ClInclude Include="Source\Engine\Math\Matrix.h" />
-    <ClInclude Include="Source\Engine\Math\Quaternion.h" />
-    <ClInclude Include="Source\Engine\Math\Vector.h" />
-    <ClInclude Include="Source\Engine\Shared\StructData.h" />
-    <ClInclude Include="Source\Engine\Core\Window.h" />
-    <ClInclude Include="Source\Engine\Graphics\VertexBuffer.h" />
-    <ClInclude Include="Source\Engine\Graphics\IndexBuffer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\CBuffer.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

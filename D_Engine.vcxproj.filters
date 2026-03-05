@@ -15,111 +15,61 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Engine\Core\Window.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphics\ColorShader.cpp">
+    <ClCompile Include="Source\Rendering\D3D11\D3D11RenderDevice.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphics\Model.cpp">
+    <ClCompile Include="Source\Engine\Engine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphics\Shader.cpp">
+    <ClCompile Include="Source\Core\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Component\Transform.cpp">
+    <ClCompile Include="Source\Rendering\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Component\Camera.cpp">
+    <ClCompile Include="Source\Rendering\ForwardRenderSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Component\MeshRenderer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Engine.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Core\Timer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Math\Vector.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Math\Matrix.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Math\Quaternion.cpp">
+    <ClCompile Include="Source\Core\Input.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Engine\Core\Window.h">
+    <ClInclude Include="Source\Rendering\IRenderDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h">
+    <ClInclude Include="Source\Engine\Engine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\VertexBuffer.h">
+    <ClInclude Include="Source\Core\World.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\IndexBuffer.h">
+    <ClInclude Include="Source\Core\System.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\Shader.h">
+    <ClInclude Include="Source\Core\Entity.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h">
+    <ClInclude Include="Source\Core\Component.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\RasterizerState.h">
+    <ClInclude Include="Source\Rendering\Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\ColorShader.h">
+    <ClInclude Include="Source\Rendering\D3D11\D3D11RenderDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphics\Model.h">
+    <ClInclude Include="Source\Rendering\ForwardRenderSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Shared\StructData.h">
+    <ClInclude Include="Source\Rendering\D3D11\ID3D11RenderDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Component\Transform.h">
+    <ClInclude Include="Source\Core\Input.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Component\Camera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Component\MeshRenderer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Engine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\Timer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Math\MathHelper.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Math\Vector.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Math\Matrix.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Math\Quaternion.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\CBuffer.hlsl" />
-    <FxCompile Include="Resources\Shaders\PS.hlsl" />
-    <FxCompile Include="Resources\Shaders\VS.hlsl" />
   </ItemGroup>
 </Project>
