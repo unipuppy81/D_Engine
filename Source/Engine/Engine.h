@@ -1,7 +1,8 @@
 #pragma once
 
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <windows.h>
+#include <windowsx.h>
 
 #include <memory>
 
@@ -51,7 +52,7 @@ namespace Unipuppy
     private:
         enum class ShadingMode
         {
-            Lamber  = 0,
+            Lambert = 0,
             Phong   = 1,
             BlinnPhong = 2
         };
